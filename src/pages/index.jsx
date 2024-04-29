@@ -1,21 +1,13 @@
 import styles from './index.less';
 import { Table } from 'antd';
-import {
-  generateNewArray,
-  generateNewArray2,
-  generateNewArray3,
-  getColor,
-  isMissing,
-} from '../utils/methods';
-import { data, initMissingValues } from './data';
+import { getColor, isMissing } from '../utils/methods';
 import { useState } from 'react';
 import classNames from 'classnames';
 import { CaretDownOutlined } from '@ant-design/icons';
+import { dataSource2022147, dataSource2014001 } from './data';
 
 export default function IndexPage() {
-  const [dataSource] = useState(
-    generateNewArray3(generateNewArray2(data, initMissingValues)),
-  );
+  const [dataSource] = useState(dataSource2014001);
   const getNumberColumns = () => {
     const result = [];
     for (let i = 1; i <= 33; i++) {

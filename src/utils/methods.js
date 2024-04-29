@@ -1,10 +1,12 @@
 export const generateNewArray = (arr) => {
   return arr.reverse().map((item) => {
     const { id, value } = item;
+    // 将value每一项转换成string
+    let stringsArray = value.map(String);
     const newObj = { id };
 
     for (let i = 1; i <= 33; i++) {
-      newObj[`number${i}`] = value.includes(i.toString()) ? i : '-';
+      newObj[`number${i}`] = stringsArray.includes(i.toString()) ? i : '-';
     }
     return newObj;
   });
@@ -15,11 +17,12 @@ export const generateNewArray2 = (arr, initMissingValues) => {
 
   return arr.reverse().map((item) => {
     const { id, value } = item;
+    let stringsArray = value.map(String);
     const newObj = { id };
     for (let i = 1; i <= 33; i++) {
-      if (!value.length) {
+      if (!stringsArray.length) {
         newObj[`number${i}`] = '-';
-      } else if (value.includes(i.toString())) {
+      } else if (stringsArray.includes(i.toString())) {
         newObj[`number${i}`] = i;
         currentMissingValues[i - 1] = 0; // 数字出现，遗漏值设为0
       } else {
