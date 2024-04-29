@@ -48,3 +48,5 @@ export const getColor = (number) => {
       return '#fa7c7c';
   }
 };
+
+export const isMissing = (text) => /^-\d+$/.test(text);

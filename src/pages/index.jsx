@@ -4,6 +4,7 @@ import {
   generateNewArray,
   generateNewArray2,
   getColor,
+  isMissing,
 } from '../utils/methods';
 import { data, initMissingValues } from './data';
 import { useState } from 'react';
@@ -20,6 +21,7 @@ export default function IndexPage() {
         dataIndex: `number${i}`,
         key: `number${i}`,
         align: 'center',
+        width: 50,
         render: (text, record, index) => {
           if (index < 11) {
             return (
@@ -31,10 +33,10 @@ export default function IndexPage() {
           const prev11 = dataSource
             .slice(index - 11, index)
             .map((item) => item[`number${i}`]);
-          const appearCount = prev11.filter((item) => !/^-/.test(item)).length;
+          const appearCount = prev11.filter((item) => !isMissing(item)).length;
 
           const color = getColor(appearCount);
-          const colorWillChange = !/^-/.test(prev11[0]) && appearCount <= 4;
+          const colorWillChange = !isMissing(prev11[0]) && appearCount <= 4;
 
           // debug
           // if (i === 1 && index === 200) {
@@ -42,15 +44,20 @@ export default function IndexPage() {
 
           return (
             <div style={{ background: color }}>
-              <span
-                className={classNames({
+              <div
+                className={classNames(styles.text, {
                   [styles.bold_text]: text === i,
-                  [styles.missing_text]: /^-\d+$/.test(text),
+                  [styles.missing_text]: isMissing(text),
                 })}
               >
-                {record[`number${i}`]}
+                <span className={styles.number}>{record[`number${i}`]}</span>
+                <span
+                  className={classNames({
+                    [styles.round]: !isMissing(text),
+                  })}
+                />
                 {colorWillChange && <CaretDownOutlined />}
-              </span>
+              </div>
             </div>
           );
         },
