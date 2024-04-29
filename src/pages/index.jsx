@@ -3,6 +3,7 @@ import { Table } from 'antd';
 import {
   generateNewArray,
   generateNewArray2,
+  generateNewArray3,
   getColor,
   isMissing,
 } from '../utils/methods';
@@ -12,7 +13,9 @@ import classNames from 'classnames';
 import { CaretDownOutlined } from '@ant-design/icons';
 
 export default function IndexPage() {
-  const [dataSource] = useState(generateNewArray2(data, initMissingValues));
+  const [dataSource] = useState(
+    generateNewArray3(generateNewArray2(data, initMissingValues)),
+  );
   const getNumberColumns = () => {
     const result = [];
     for (let i = 1; i <= 33; i++) {
@@ -74,6 +77,39 @@ export default function IndexPage() {
       align: 'center',
     },
     ...getNumberColumns(),
+    {
+      title: 'RATE',
+      dataIndex: 'rate',
+      key: 'rate',
+      align: 'center',
+      render: (text) => {
+        if (!text?.length) return null;
+        const [red, green, yellow, orange, blue] = text.split(':');
+        return (
+          <div>
+            <span style={{ backgroundColor: 'rgba(250,124,124,0.5)' }}>
+              {red}
+            </span>
+            :
+            <span style={{ backgroundColor: 'rgba(205,255,172,0.5)' }}>
+              {green}
+            </span>
+            :
+            <span style={{ backgroundColor: 'rgba(255,253,107,0.5)' }}>
+              {yellow}
+            </span>
+            :
+            <span style={{ backgroundColor: 'rgba(255,195,0,0.5)' }}>
+              {orange}
+            </span>
+            :
+            <span style={{ backgroundColor: 'rgba(172,211,255,0.5)' }}>
+              {blue}
+            </span>
+          </div>
+        );
+      },
+    },
   ];
 
   return (

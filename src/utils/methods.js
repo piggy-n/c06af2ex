@@ -32,6 +32,45 @@ export const generateNewArray2 = (arr, initMissingValues) => {
   });
 };
 
+export const generateNewArray3 = (arr) => {
+  return arr.map((item, index) => {
+    if (index < 11) return item;
+    let blueCount = 0;
+    let greenCount = 0;
+    let yellowCount = 0;
+    let orangeCount = 0;
+    let redCount = 0;
+    const prev11 = arr.slice(index - 11, index);
+    for (let i = 1; i <= 33; i++) {
+      const length = prev11.filter(
+        (item) => !isMissing(item[`number${i}`]),
+      ).length;
+      switch (length) {
+        case 0:
+          blueCount += 1;
+          break;
+        case 1:
+          greenCount += 1;
+          break;
+        case 2:
+          yellowCount += 1;
+          break;
+        case 3:
+          orangeCount += 1;
+          break;
+        case 4:
+          redCount += 1;
+          break;
+        default:
+          redCount += 1;
+          break;
+      }
+    }
+    item.rate = `${redCount}:${greenCount}:${yellowCount}:${orangeCount}:${blueCount}`;
+    return item;
+  });
+};
+
 export const getColor = (number) => {
   switch (number) {
     case 0:
