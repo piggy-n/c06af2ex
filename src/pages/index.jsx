@@ -56,7 +56,7 @@ export default function IndexPage() {
                 <span className={styles.number}>{record[`number${i}`]}</span>
                 <span
                   className={classNames({
-                    [styles.round]: !isMissing(text),
+                    [styles.round]: !isMissing(text) && text !== '-',
                   })}
                 />
                 {colorWillChange && <CaretDownOutlined />}
@@ -69,12 +69,60 @@ export default function IndexPage() {
     return result;
   };
 
+  const renderRate = (text) => {
+    if (!text?.length) return null;
+    const [red, green, yellow, orange, blue] = text.split(':');
+    return (
+      <div>
+        <span style={{ backgroundColor: 'rgba(250,124,124,0.5)' }}>{red}</span>:
+        <span style={{ backgroundColor: 'rgba(205,255,172,0.5)' }}>
+          {green}
+        </span>
+        :
+        <span style={{ backgroundColor: 'rgba(255,253,107,0.5)' }}>
+          {yellow}
+        </span>
+        :
+        <span style={{ backgroundColor: 'rgba(255,195,0,0.5)' }}>{orange}</span>
+        :
+        <span style={{ backgroundColor: 'rgba(172,211,255,0.5)' }}>{blue}</span>
+      </div>
+    );
+  };
+
   const columns = [
     {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
       align: 'center',
+      render: (text, record, index) => {
+        if (index < 11) {
+          return text;
+        }
+        let color = '';
+        const [red, green, yellow, orange, blue] =
+          record.currentRate.split(':');
+        if (Number(blue) > 0) {
+          color = 'rgba(173,173,255,0.8)';
+        }
+        if (Number(blue) === 0 && Number(red) > 0) {
+          color = 'rgba(255,195,0,0.8)';
+        }
+        if (Number(blue) === 0 && Number(red) === 0) {
+          color = 'rgba(16,232,239,0.8)';
+        }
+        if (
+          Number(blue) === 0 &&
+          Number(red) === 0 &&
+          Number(yellow) === 0 &&
+          Number(orange) === 0 &&
+          Number(green) === 0
+        ) {
+          color = 'transparent';
+        }
+        return <div style={{ background: color }}>{text}</div>;
+      },
     },
     ...getNumberColumns(),
     {
@@ -83,31 +131,16 @@ export default function IndexPage() {
       key: 'rate',
       align: 'center',
       render: (text) => {
-        if (!text?.length) return null;
-        const [red, green, yellow, orange, blue] = text.split(':');
-        return (
-          <div>
-            <span style={{ backgroundColor: 'rgba(250,124,124,0.5)' }}>
-              {red}
-            </span>
-            :
-            <span style={{ backgroundColor: 'rgba(205,255,172,0.5)' }}>
-              {green}
-            </span>
-            :
-            <span style={{ backgroundColor: 'rgba(255,253,107,0.5)' }}>
-              {yellow}
-            </span>
-            :
-            <span style={{ backgroundColor: 'rgba(255,195,0,0.5)' }}>
-              {orange}
-            </span>
-            :
-            <span style={{ backgroundColor: 'rgba(172,211,255,0.5)' }}>
-              {blue}
-            </span>
-          </div>
-        );
+        return renderRate(text);
+      },
+    },
+    {
+      title: 'Current Rate',
+      dataIndex: 'currentRate',
+      key: 'currentRate',
+      align: 'center',
+      render: (text) => {
+        return renderRate(text);
       },
     },
   ];

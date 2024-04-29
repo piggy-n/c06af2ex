@@ -40,33 +40,61 @@ export const generateNewArray3 = (arr) => {
     let yellowCount = 0;
     let orangeCount = 0;
     let redCount = 0;
+
+    let currentBlueCount = 0;
+    let currentGreenCount = 0;
+    let currentYellowCount = 0;
+    let currentOrangeCount = 0;
+    let currentRedCount = 0;
+
     const prev11 = arr.slice(index - 11, index);
     for (let i = 1; i <= 33; i++) {
       const length = prev11.filter(
         (item) => !isMissing(item[`number${i}`]),
       ).length;
+      const itemNumberAppear =
+        item[`number${i}`] !== '-' && !isMissing(item[`number${i}`]);
       switch (length) {
         case 0:
           blueCount += 1;
+          if (itemNumberAppear) {
+            currentBlueCount += 1;
+          }
           break;
         case 1:
           greenCount += 1;
+          if (itemNumberAppear) {
+            currentGreenCount += 1;
+          }
           break;
         case 2:
           yellowCount += 1;
+          if (itemNumberAppear) {
+            currentYellowCount += 1;
+          }
           break;
         case 3:
           orangeCount += 1;
+          if (itemNumberAppear) {
+            currentOrangeCount += 1;
+          }
           break;
         case 4:
           redCount += 1;
+          if (itemNumberAppear) {
+            currentRedCount += 1;
+          }
           break;
         default:
           redCount += 1;
+          if (itemNumberAppear) {
+            currentRedCount += 1;
+          }
           break;
       }
     }
     item.rate = `${redCount}:${greenCount}:${yellowCount}:${orangeCount}:${blueCount}`;
+    item.currentRate = `${currentRedCount}:${currentGreenCount}:${currentYellowCount}:${currentOrangeCount}:${currentBlueCount}`;
     return item;
   });
 };
@@ -89,3 +117,26 @@ export const getColor = (number) => {
 };
 
 export const isMissing = (text) => /^-\d+$/.test(text);
+
+// for (let i = 1; i <= 33; i++) {
+//   const prev11 = arr.slice(index - 11, index).map((item) => item[`number${i}`]);
+//   const appearCount = prev11.filter((item) => !isMissing(item)).length;
+//   const color = getColor(appearCount);
+//   const colorWillChange = !isMissing(prev11[0]) && appearCount <= 4;
+//   if (appearCount === 0) {
+//     currentBlueCount += 1;
+//   } else if (appearCount === 1) {
+//     currentGreenCount += 1;
+//   } else if (appearCount === 2) {
+//     currentYellowCount += 1;
+//   } else if (appearCount === 3) {
+//     currentOrangeCount += 1;
+//   } else if (appearCount === 4) {
+//     currentRedCount += 1;
+//   }
+//   item[`number${i}`] = {
+//     number: item[`number${i}`],
+//     color,
+//     colorWillChange,
+//   };
+// }
