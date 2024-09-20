@@ -378,7 +378,7 @@ function generateTableData(
   let columns = [
     { title: '数字', dataIndex: 'key', key: 'key' },
     ...groupNumbers.map((num) => ({
-      title: num.toString(),
+      title: `${num.toString()} 👇`,
       dataIndex: num.toString(),
       key: num.toString(),
     })),
