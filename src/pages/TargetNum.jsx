@@ -20,20 +20,23 @@ export default () => {
     // console.log(data);
   }, []);
 
-  const getColumns = (list, width = 50) => {
+  const getColumns = (list, num = 0) => {
     const result = [];
-    for (let listElement of list) {
+    list.forEach((listElement, i) => {
       result.push({
         ...listElement,
         align: 'center',
-        width,
-        render: (text) => {
+        width: 50,
+        render: (text, _, index) => {
           if (!text) return <div> \ </div>;
           if (!isObject(text)) return <div>{text}</div>;
           const { totalOccurrences, levels } = text;
           return (
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {/*<span>总: {totalOccurrences}</span>*/}
+              <span>
+                {i + num} 👉 {index + num + 1}
+              </span>
               {Object.values(levels).map((value, index) => {
                 return (
                   <div key={`lv-${index}`} style={{ display: 'flex', gap: 16 }}>
@@ -50,7 +53,7 @@ export default () => {
           );
         },
       });
-    }
+    });
     return result;
   };
 
@@ -80,19 +83,19 @@ export default () => {
         pagination={false}
       />
       <Table
-        columns={getColumns(data2?.columns || [])}
+        columns={getColumns(data2?.columns || [], 11)}
         rowKey={(record) => record.key}
         dataSource={data2?.dataSource || []}
         pagination={false}
       />
       <Table
-        columns={getColumns(data3?.columns || [])}
+        columns={getColumns(data3?.columns || [], 22)}
         rowKey={(record) => record.key}
         dataSource={data3?.dataSource || []}
         pagination={false}
       />
       <Table
-        columns={getColumns(data4?.columns || [], 100)}
+        columns={getColumns(data4?.columns || [])}
         rowKey={(record) => record.key}
         dataSource={data4?.dataSource || []}
         pagination={false}
