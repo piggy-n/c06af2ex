@@ -7,5 +7,8 @@ export default defineConfig({
     type: 'none',
   },
   publicPath: './',
-  routes: [{ path: '/', component: '@/pages/index' }],
+  routes: [
+    { path: '/', component: '@/pages/index' },
+    { path: '/target-num', component: '@/pages/TargetNum' },
+  ],
 });

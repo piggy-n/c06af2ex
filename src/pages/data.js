@@ -7523,8 +7523,8 @@ export const data2014001 = [
 ];
 
 export const dataSource2022147 = generateNewArray3(
-  generateNewArray2(data2022147, initMissingValues2022147),
+  generateNewArray2([...data2022147], initMissingValues2022147),
 );
 export const dataSource2014001 = generateNewArray3(
-  generateNewArray2(data2014001, initMissingValues2014001),
+  generateNewArray2([...data2014001], initMissingValues2014001),
 );

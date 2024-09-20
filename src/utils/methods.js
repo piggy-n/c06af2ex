@@ -247,3 +247,178 @@ export function analyzeAssociations(
     console.log('------------------------------------');
   }
 }
+
+function generateTableData(
+  dataArray,
+  groupRangeStr,
+  arrayLimit,
+  analysisLevel = 2,
+) {
+  // Parse the groupRangeStr, e.g., '1-11'
+  let [rangeStart, rangeEnd] = groupRangeStr.split('-').map(Number);
+  if (rangeStart > rangeEnd) {
+    [rangeStart, rangeEnd] = [rangeEnd, rangeStart];
+  }
+  let groupNumbers = [];
+  for (let num = rangeStart; num <= rangeEnd; num++) {
+    groupNumbers.push(num);
+  }
+
+  // Preprocess the array: truncate and reverse
+  let processedArray = dataArray.slice(0, arrayLimit).reverse();
+
+  // Initialize counts for all targetNums and nums
+  let counts = {};
+
+  for (let targetNum of groupNumbers) {
+    counts[targetNum] = {};
+
+    // Initialize counts for nums (excluding targetNum)
+    for (let num of groupNumbers) {
+      if (num !== targetNum) {
+        counts[targetNum][num] = {
+          totalOccurrences: 0,
+          simultaneousOccurrences: 0,
+        };
+        // Initialize counts for each analysis level
+        for (let level = 1; level <= analysisLevel; level++) {
+          counts[targetNum][num][`next${level}Occurrences`] = 0;
+        }
+      }
+    }
+  }
+
+  // Process the dataArray
+  for (let i = 0; i < processedArray.length; i++) {
+    let currentValues = processedArray[i].value;
+
+    // For each targetNum in groupNumbers
+    for (let targetNum of groupNumbers) {
+      // For nums in currentValues
+      for (let num of currentValues) {
+        if (groupNumbers.includes(num) && num !== targetNum) {
+          // Update totalOccurrences for num in counts[targetNum][num]
+          counts[targetNum][num].totalOccurrences++;
+
+          // Check if targetNum is in currentValues
+          if (currentValues.includes(targetNum)) {
+            counts[targetNum][num].simultaneousOccurrences++;
+          }
+        }
+      }
+
+      // For analysis levels
+      for (let level = 1; level <= analysisLevel; level++) {
+        if (i + level >= processedArray.length) break;
+
+        let futureValues = processedArray[i + level].value;
+
+        // For nums in currentValues
+        for (let num of currentValues) {
+          if (groupNumbers.includes(num) && num !== targetNum) {
+            if (futureValues.includes(targetNum)) {
+              counts[targetNum][num][`next${level}Occurrences`]++;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Build the table data
+  let data = [];
+
+  for (let targetNum of groupNumbers) {
+    let row = {
+      key: targetNum.toString(),
+    };
+
+    for (let num of groupNumbers) {
+      if (num === targetNum) {
+        row[num] = null;
+      } else {
+        let countData = counts[targetNum][num];
+
+        // Build the analysis result object
+        let total = countData.totalOccurrences;
+        if (total === 0) {
+          row[num] = null;
+        } else {
+          let cellData = {
+            totalOccurrences: total,
+            levels: {},
+          };
+
+          // Level 0: simultaneousOccurrences
+          cellData.levels['0'] = {
+            rate: `${countData.simultaneousOccurrences}:${total}`,
+            percentage:
+              ((countData.simultaneousOccurrences / total) * 100).toFixed(2) +
+              '%',
+          };
+
+          // Levels 1 to analysisLevel
+          for (let level = 1; level <= analysisLevel; level++) {
+            let nextOccurrences = countData[`next${level}Occurrences`];
+            cellData.levels[level] = {
+              rate: `${nextOccurrences}:${total}`,
+              percentage: ((nextOccurrences / total) * 100).toFixed(2) + '%',
+            };
+          }
+
+          row[num] = cellData;
+        }
+      }
+    }
+
+    data.push(row);
+  }
+
+  // Build columns
+  let columns = [
+    { title: '数字', dataIndex: 'key', key: 'key' },
+    ...groupNumbers.map((num) => ({
+      title: num.toString(),
+      dataIndex: num.toString(),
+      key: num.toString(),
+    })),
+  ];
+
+  return {
+    title: `数字范围 ${groupRangeStr}`,
+    key: `group_${groupRangeStr}`,
+    columns: columns,
+    dataSource: data,
+  };
+}
+
+// Now, we will create a function to generate tables for the four groups
+export function generateTables(dataArray, arrayLimit, analysisLevel = 2) {
+  const groups = [
+    { title: '第一组', range: '1-11' },
+    { title: '第二组', range: '12-22' },
+    { title: '第三组', range: '23-33' },
+    { title: '第四组', range: '1-33' },
+  ];
+
+  let dataSource = [];
+
+  for (let group of groups) {
+    let tableData = generateTableData(
+      dataArray,
+      group.range,
+      arrayLimit,
+      analysisLevel,
+    );
+
+    dataSource.push({
+      title: group.title,
+      dataIndex: tableData.title,
+      key: tableData.key,
+      columns: tableData.columns,
+      dataSource: tableData.dataSource,
+    });
+  }
+
+  return dataSource;
+}
