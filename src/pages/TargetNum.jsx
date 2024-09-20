@@ -5,10 +5,10 @@ import { analyzeAssociations, generateTables } from '../utils/methods';
 import { Button, Space, Table } from 'antd';
 import { isObject } from 'lodash';
 
-export default () => {
-  const initialData = [...data2022147];
-  initialData.shift();
+const initialData = [...data2022147];
+initialData.shift();
 
+export default () => {
   const [data] = useState(generateTables([...initialData], 55));
   const [data1, setData1] = useState();
   const [data2, setData2] = useState();
