@@ -143,3 +143,107 @@ export const isMissing = (text) => /^-\d+$/.test(text);
 //     colorWillChange,
 //   };
 // }
+
+export function analyzeAssociations(
+  dataArray,
+  targetNum,
+  searchRangeStr,
+  arrayLimit,
+  analysisLevel = 2,
+) {
+  // 预处理数组: 截断和反转
+  let processedArray = dataArray.slice(0, arrayLimit).reverse();
+
+  // 解析搜索范围，例如“1-11”
+  let [rangeStart, rangeEnd] = searchRangeStr.split('-').map(Number);
+  // 必要时交换范围的开始和结束
+  if (rangeStart > rangeEnd) {
+    [rangeStart, rangeEnd] = [rangeEnd, rangeStart];
+  }
+  let searchNumbers = [];
+  // 生成搜索范围内的数字列表
+  for (let num = rangeStart; num <= rangeEnd; num++) {
+    if (num !== targetNum) {
+      searchNumbers.push(num);
+    }
+  }
+
+  // 将analysisLevel限制为最多5
+  if (analysisLevel > 5) analysisLevel = 5;
+
+  // 初始化searchRange中每个数字的计数
+  let counts = {};
+  for (let num of searchNumbers) {
+    counts[num] = {
+      totalOccurrences: 0,
+      simultaneousOccurrences: 0,
+    };
+    // 初始化每个分析级别的计数
+    for (let level = 1; level <= analysisLevel; level++) {
+      counts[num][`next${level}Occurrences`] = 0;
+    }
+  }
+
+  // 遍历处理后的数组
+  for (let i = 0; i < processedArray.length; i++) {
+    let currentValues = processedArray[i].value;
+
+    // 更新每个数字的计数 totalOccurrences：总出现次数 simultaneousOccurrences：与目标数字同时出现的次数
+    for (let num of currentValues) {
+      if (searchNumbers.includes(num)) {
+        counts[num].totalOccurrences++;
+
+        // 如果当前数字与目标数字同时出现，则增加simultaneousOccurrences 计数
+        if (currentValues.includes(targetNum)) {
+          counts[num].simultaneousOccurrences++;
+        }
+      }
+    }
+
+    // 更新每个数字的计数 nextXOccurrences：下一个数字出现的次数 每个分析级别的更新计数
+    for (let level = 1; level <= analysisLevel; level++) {
+      if (i + level >= processedArray.length) break;
+
+      let futureValues = processedArray[i + level].value;
+
+      for (let num of currentValues) {
+        if (searchNumbers.includes(num)) {
+          if (futureValues.includes(targetNum)) {
+            counts[num][`next${level}Occurrences`]++;
+          }
+        }
+      }
+    }
+  }
+
+  // 按顺序输出结果
+  for (let num of searchNumbers) {
+    let data = counts[num];
+    let total = data.totalOccurrences;
+    // 如果数字没有出现，则跳过
+    if (total === 0) continue;
+
+    console.log(`数字: ${num}`);
+    console.log(`总出现次数: ${total}`);
+
+    // Level 0: 与目标数字同时出现的比例
+    let simultaneousRatio = data.simultaneousOccurrences / total;
+    console.log(
+      `Level 0 出现比例: ${data.simultaneousOccurrences}:${total} = ${(
+        simultaneousRatio * 100
+      ).toFixed(2)}%`,
+    );
+
+    // Levels 1 to analysisLevel: 下一个数字出现的比例
+    for (let level = 1; level <= analysisLevel; level++) {
+      let nextOccurrences = data[`next${level}Occurrences`];
+      let ratio = nextOccurrences / total;
+      console.log(
+        `Level ${level} 出现比例: ${nextOccurrences}:${total} = ${(
+          ratio * 100
+        ).toFixed(2)}%`,
+      );
+    }
+    console.log('------------------------------------');
+  }
+}

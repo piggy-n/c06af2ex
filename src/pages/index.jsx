@@ -1,14 +1,21 @@
 import styles from './index.less';
 import { Table } from 'antd';
-import { getColor, isMissing } from '../utils/methods';
-import { useState } from 'react';
+import { analyzeAssociations, getColor, isMissing } from '../utils/methods';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { CaretDownOutlined } from '@ant-design/icons';
-import { dataSource2022147, dataSource2014001 } from './data';
+import { dataSource2022147, dataSource2014001, data2022147 } from './data';
 
 export default function IndexPage() {
-  const [dataSource] = useState(dataSource2014001);
-  // const [dataSource] = useState(dataSource2022147);
+  const initialData = [...data2022147].reverse();
+  initialData.shift();
+  // const [dataSource] = useState(dataSource2014001);
+  const [dataSource] = useState(dataSource2022147);
+
+  useEffect(() => {
+    analyzeAssociations([...initialData], 3, '1-11', 55, 2);
+  }, []);
+
   const getNumberColumns = () => {
     const result = [];
     for (let i = 1; i <= 33; i++) {
