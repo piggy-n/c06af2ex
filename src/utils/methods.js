@@ -49,14 +49,58 @@ export const generateNewArray3 = (arr) => {
     let currentYellowCount = 0;
     let currentOrangeCount = 0;
     let currentRedCount = 0;
+    let missing0 = 0;
+    let missing1 = 0;
+    let missing2 = 0;
+    let missing3 = 0;
+    let missing4to7 = 0;
+    let missing8to10 = 0;
+    let missing11plus = 0;
 
     const prev11 = arr.slice(index - 11, index);
+    const prev = arr[index - 1];
     for (let i = 1; i <= 33; i++) {
       const length = prev11.filter(
         (item) => !isMissing(item[`number${i}`]),
       ).length;
       const itemNumberAppear =
         item[`number${i}`] !== '-' && !isMissing(item[`number${i}`]);
+      const prevMissingValue = itemNumberAppear
+        ? !isMissing(prev[`number${i}`])
+          ? '0'
+          : prev[`number${i}`]
+        : '-';
+      switch (prevMissingValue) {
+        case '-':
+          break;
+        case '0':
+          missing0 += 1;
+          break;
+        case '-1':
+          missing1 += 1;
+          break;
+        case '-2':
+          missing2 += 1;
+          break;
+        case '-3':
+          missing3 += 1;
+          break;
+        case '-4':
+        case '-5':
+        case '-6':
+        case '-7':
+          missing4to7 += 1;
+          break;
+        case '-8':
+        case '-9':
+        case '-10':
+          missing8to10 += 1;
+          break;
+        default:
+          missing11plus += 1;
+          break;
+      }
+
       switch (length) {
         case 0:
           blueCount += 1;
@@ -98,6 +142,13 @@ export const generateNewArray3 = (arr) => {
     }
     item.rate = `${redCount}:${greenCount}:${yellowCount}:${orangeCount}:${blueCount}`;
     item.currentRate = `${currentRedCount}:${currentGreenCount}:${currentYellowCount}:${currentOrangeCount}:${currentBlueCount}`;
+    item.missing0 = missing0;
+    item.missing1 = missing1;
+    item.missing2 = missing2;
+    item.missing3 = missing3;
+    item.missing4to7 = missing4to7;
+    item.missing8to10 = missing8to10;
+    item.missing11plus = missing11plus;
     return item;
   });
 };

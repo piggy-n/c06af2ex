@@ -136,6 +136,216 @@ export default function IndexPage() {
         return renderRate(text);
       },
     },
+    {
+      title: 'L0',
+      dataIndex: 'missing0',
+      key: 'missing0',
+      align: 'center',
+      render: (text) => {
+        let color = '';
+        switch (text) {
+          case 0:
+            color = 'rgba(250,124,124,0)';
+            break;
+          case 1:
+            color = 'rgba(250,124,124,0.5)';
+            break;
+          case 2:
+            color = 'rgba(250,124,124,0.8)';
+            break;
+          case 3:
+            color = 'rgba(250,124,124,1)';
+            break;
+          default:
+            color = 'rgba(250,124,124,1)';
+        }
+        return (
+          <div style={{ backgroundColor: color, width: 20, height: 20 }}>
+            {text}
+          </div>
+        );
+      },
+    },
+    {
+      title: 'L1',
+      dataIndex: 'missing1',
+      key: 'missing1',
+      align: 'center',
+      render: (text) => {
+        let color = '';
+        switch (text) {
+          case 0:
+            color = 'rgba(255,195,0,0)';
+            break;
+          case 1:
+            color = 'rgba(255,195,0,0.5)';
+            break;
+          case 2:
+            color = 'rgba(255,195,0,0.8)';
+            break;
+          case 3:
+            color = 'rgba(255,195,0,1)';
+            break;
+          default:
+            color = 'rgba(255,195,0,1)';
+        }
+        return (
+          <div style={{ backgroundColor: color, width: 20, height: 20 }}>
+            {text}
+          </div>
+        );
+      },
+    },
+    {
+      title: 'L2',
+      dataIndex: 'missing2',
+      key: 'missing2',
+      align: 'center',
+      render: (text) => {
+        let color = '';
+        switch (text) {
+          case 0:
+            color = 'rgba(255,253,107,0)';
+            break;
+          case 1:
+            color = 'rgba(255,253,107,0.5)';
+            break;
+          case 2:
+            color = 'rgba(255,253,107,0.8)';
+            break;
+          case 3:
+            color = 'rgba(255,253,107,1)';
+            break;
+          default:
+            color = 'rgba(255,253,107,1)';
+        }
+        return (
+          <div style={{ backgroundColor: color, width: 20, height: 20 }}>
+            {text}
+          </div>
+        );
+      },
+    },
+    {
+      title: 'L3',
+      dataIndex: 'missing3',
+      key: 'missing3',
+      align: 'center',
+      render: (text) => {
+        let color = '';
+        switch (text) {
+          case 0:
+            color = 'rgba(205,255,172,0)';
+            break;
+          case 1:
+            color = 'rgba(205,255,172,0.5)';
+            break;
+          case 2:
+            color = 'rgba(205,255,172,0.8)';
+            break;
+          case 3:
+            color = 'rgba(205,255,172,1)';
+            break;
+          default:
+            color = 'rgba(205,255,172,1)';
+        }
+        return (
+          <div style={{ backgroundColor: color, width: 20, height: 20 }}>
+            {text}
+          </div>
+        );
+      },
+    },
+    {
+      title: 'L4-L7',
+      dataIndex: 'missing4to7',
+      key: 'missing4to7',
+      align: 'center',
+      render: (text) => {
+        let color = '';
+        switch (text) {
+          case 0:
+            color = 'rgba(16,232,239,0)';
+            break;
+          case 1:
+            color = 'rgba(16,232,239,0.5)';
+            break;
+          case 2:
+            color = 'rgba(16,232,239,0.8)';
+            break;
+          case 3:
+            color = 'rgba(16,232,239,1)';
+            break;
+          default:
+            color = 'rgba(16,232,239,1)';
+        }
+        return (
+          <div style={{ backgroundColor: color, width: 20, height: 20 }}>
+            {text}
+          </div>
+        );
+      },
+    },
+    {
+      title: 'L8-L10',
+      dataIndex: 'missing8to10',
+      key: 'missing8to10',
+      align: 'center',
+      render: (text) => {
+        let color = '';
+        switch (text) {
+          case 0:
+            color = 'rgba(173,173,255,0)';
+            break;
+          case 1:
+            color = 'rgba(173,173,255,0.5)';
+            break;
+          case 2:
+            color = 'rgba(173,173,255,0.8)';
+            break;
+          case 3:
+            color = 'rgba(173,173,255,1)';
+            break;
+          default:
+            color = 'rgba(173,173,255,1)';
+        }
+        return (
+          <div style={{ backgroundColor: color, width: 20, height: 20 }}>
+            {text}
+          </div>
+        );
+      },
+    },
+    {
+      title: 'L11+',
+      dataIndex: 'missing11plus',
+      key: 'missing11plus',
+      align: 'center',
+      render: (text) => {
+        let color = '';
+        switch (text) {
+          case 0:
+            color = 'rgba(172,211,255,0)';
+            break;
+          case 1:
+            color = 'rgba(172,211,255,0.5)';
+            break;
+          case 2:
+            color = 'rgba(172,211,255,0.8)';
+            break;
+          case 3:
+            color = 'rgba(172,211,255,1)';
+            break;
+          default:
+            color = 'rgba(172,211,255,1)';
+        }
+        return (
+          <div style={{ backgroundColor: color, width: 20, height: 20 }}>
+            {text}
+          </div>
+        );
+      },
+    },
   ];
 
   return (
