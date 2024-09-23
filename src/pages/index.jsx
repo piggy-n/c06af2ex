@@ -142,6 +142,7 @@ export default function IndexPage() {
       key: 'missing0',
       align: 'center',
       render: (text) => {
+        if (text === undefined) return '';
         let color = '';
         switch (text) {
           case 0:
@@ -172,6 +173,7 @@ export default function IndexPage() {
       key: 'missing1',
       align: 'center',
       render: (text) => {
+        if (text === undefined) return '';
         let color = '';
         switch (text) {
           case 0:
@@ -202,6 +204,7 @@ export default function IndexPage() {
       key: 'missing2',
       align: 'center',
       render: (text) => {
+        if (text === undefined) return '';
         let color = '';
         switch (text) {
           case 0:
@@ -232,6 +235,7 @@ export default function IndexPage() {
       key: 'missing3',
       align: 'center',
       render: (text) => {
+        if (text === undefined) return '';
         let color = '';
         switch (text) {
           case 0:
@@ -262,6 +266,7 @@ export default function IndexPage() {
       key: 'missing4to7',
       align: 'center',
       render: (text) => {
+        if (text === undefined) return '';
         let color = '';
         switch (text) {
           case 0:
@@ -292,6 +297,7 @@ export default function IndexPage() {
       key: 'missing8to10',
       align: 'center',
       render: (text) => {
+        if (text === undefined) return '';
         let color = '';
         switch (text) {
           case 0:
@@ -322,6 +328,7 @@ export default function IndexPage() {
       key: 'missing11plus',
       align: 'center',
       render: (text) => {
+        if (text === undefined) return '';
         let color = '';
         switch (text) {
           case 0:
