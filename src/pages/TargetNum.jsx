@@ -9,6 +9,7 @@ const initialData = [...data2022147];
 initialData.shift();
 
 export default () => {
+  // const [data] = useState(generateTables([...initialData], 11));
   const [data] = useState(generateTables([...initialData], 55));
   const [data1, setData1] = useState();
   const [data2, setData2] = useState();
