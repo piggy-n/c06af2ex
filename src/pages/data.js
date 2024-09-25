@@ -10,8 +10,12 @@ export const initMissingValues2022147 = [
 ];
 export const data2022147 = [
   {
-    id: '2024111',
+    id: '2024112',
     value: [],
+  },
+  {
+    id: '2024111',
+    value: [1, 4, 11, 12, 22, 30],
   },
   {
     id: '2024110',
@@ -1077,8 +1081,12 @@ export const data2022147 = [
 
 export const data2014001 = [
   {
-    id: '2024111',
+    id: '2024112',
     value: [],
+  },
+  {
+    id: '2024111',
+    value: [1, 4, 11, 12, 22, 30],
   },
   {
     id: '2024110',
