@@ -9,6 +9,6 @@ export default defineConfig({
   publicPath: './',
   routes: [
     { path: '/', component: '@/pages/index' },
-    { path: '/target-num', component: '@/pages/TargetNum' },
+    { path: '/num', component: '@/pages/TargetNum' },
   ],
 });
