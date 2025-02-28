@@ -7,8 +7,8 @@ import { CaretDownOutlined } from '@ant-design/icons';
 import { dataSource2022147, dataSource2014001 } from './data';
 
 export default function IndexPage() {
-  const [dataSource] = useState(dataSource2014001);
-  // const [dataSource] = useState(dataSource2022147);
+  // const [dataSource] = useState(dataSource2014001);
+  const [dataSource] = useState(dataSource2022147);
   const getNumberColumns = () => {
     const result = [];
     for (let i = 1; i <= 33; i++) {
