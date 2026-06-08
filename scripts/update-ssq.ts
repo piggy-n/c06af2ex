@@ -391,9 +391,11 @@ function updateArray(parsedArray: ParsedArray, draw: DrawResult): string {
 
 // 使用项目 prettier 配置格式化写回后的数据文件。
 async function formatDataFile(content: string): Promise<string> {
+  // @ts-ignore
   const prettierModule = await import('prettier');
   const prettier =
     ((prettierModule as unknown) as {
+      // @ts-ignore
       default?: typeof import('prettier');
     }).default || prettierModule;
   const config = (await prettier.resolveConfig(DATA_FILE)) || {};
