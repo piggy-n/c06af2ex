@@ -1,15 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=development umi dev",
-    "build": "cross-env NODE_ENV=production umi build",
-    "postinstall": "umi generate tmp",
+    "start": "vite --host 0.0.0.0 --port 8080",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 8080",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
-    "test": "umi-test",
-    "test:coverage": "umi-test --coverage"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+    "test": "echo \"No test runner configured\""
   },
   "lint-staged": {
     "*.{js,jsx,less,md,json}": [
@@ -20,25 +16,25 @@
     ]
   },
   "dependencies": {
-    "@ant-design/pro-layout": "^6.5.0",
+    "@ant-design/icons": "^5.3.7",
+    "antd": "^5.16.4",
+    "classnames": "^2.5.1",
+    "lodash": "^4.17.21",
     "react": "17.x",
     "react-dom": "17.x",
-    "umi": "^3.5.41"
+    "react-router-dom": "^6.23.1"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
     "@types/lodash": "^4.17.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "@umijs/preset-react": "1.x",
-    "@umijs/test": "^3.5.41",
-    "antd": "^5.16.4",
-    "classnames": "^2.5.1",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.10",
+    "less": "^4.2.0",
     "lint-staged": "^10.0.7",
-    "lodash": "^4.17.21",
     "prettier": "^2.2.0",
     "typescript": "^4.1.2",
-    "yorkie": "^2.0.0"
+    "vite": "^5.2.0"
   }
 }

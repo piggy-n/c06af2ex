@@ -1,4 +1,4 @@
-import styles from './index.less';
+import styles from './index.module.less';
 import { Table } from 'antd';
 import { getColor, isMissing } from '../utils/methods';
 import { useState } from 'react';

@@ -1,4 +1,4 @@
-import styles from './index.less';
+import styles from './index.module.less';
 import { data2022147 } from './data';
 import { useEffect, useState } from 'react';
 import { analyzeAssociations, generateTables } from '../utils/methods';
