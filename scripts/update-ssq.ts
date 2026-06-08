@@ -40,9 +40,9 @@ const DATA_FILE = resolve(process.cwd(), 'src/pages/data.js');
 const CURRENT_ID_FILE = resolve(process.cwd(), '.ssq-current-id');
 const TARGET_ARRAYS = ['data2022147', 'data2014001'];
 
-// 下载 17500 倒序 txt，解析第一条有效开奖数据。
+// 下载倒序 txt，解析第一条有效开奖数据。
 async function fetchLatestDraw(): Promise<DrawResult> {
-  console.log('开始下载 17500 双色球倒序 txt 数据');
+  console.log('开始下载数据');
 
   const response = await fetch(SSQ_DESC_URL, {
     headers: REQUEST_HEADERS,
@@ -58,7 +58,7 @@ async function fetchLatestDraw(): Promise<DrawResult> {
   console.log('下载成功');
 
   if (!validRows.length) {
-    throw new Error('未解析到有效开奖数据');
+    throw new Error('未解析到有效数据');
   }
 
   console.log('前 3 条有效数据：');
@@ -69,8 +69,8 @@ async function fetchLatestDraw(): Promise<DrawResult> {
   const latest = validRows[0];
   const nextId = generateNextId(latest.id);
 
-  console.log(`解析最新期号：${latest.id}`);
-  console.log(`解析红球：[${latest.redBalls.join(', ')}]`);
+  console.log(`解析最新期id：${latest.id}`);
+  console.log(`解析hq：[${latest.redBalls.join(', ')}]`);
   console.log('校验通过');
 
   return {
@@ -80,7 +80,7 @@ async function fetchLatestDraw(): Promise<DrawResult> {
   };
 }
 
-// 过滤空行、表头、异常行，并转换为可写入的开奖记录。
+// 过滤空行、表头、异常行，并转换为可写入的记录。
 function parseValidRows(text: string): ParsedTxtRow[] {
   const rows: ParsedTxtRow[] = [];
 
@@ -115,7 +115,7 @@ function parseValidRows(text: string): ParsedTxtRow[] {
   return rows;
 }
 
-// 校验 txt 解析出的期号和红球，失败行直接跳过。
+// 校验 txt 解析出的期id和hq，失败行直接跳过。
 function isValidDraw(code: string, redBalls: number[]): boolean {
   if (!/^\d{7}$/.test(code)) {
     return false;
@@ -138,10 +138,10 @@ function isValidDraw(code: string, redBalls: number[]): boolean {
   return new Set(redBalls).size === redBalls.length;
 }
 
-// 根据 txt 返回的真实期号生成下一期占位 id。
+// 根据 txt 返回的真实期id生成下一期占位 id。
 function generateNextId(code: string): string {
   if (!/^\d{7}$/.test(code)) {
-    throw new Error(`期号格式必须是 YYYYNNN，当前值为 ${code}`);
+    throw new Error(`期id格式必须是 YYYYNNN，当前值为 ${code}`);
   }
 
   const year = code.slice(0, 4);
@@ -282,7 +282,7 @@ function isPlaceholder(record?: ParsedRecord): boolean {
   return Boolean(record && record.value.length === 0);
 }
 
-// 判断本地记录是否已有完整红球数据。
+// 判断本地记录是否已有完整hq数据。
 function isCompleteRecord(record?: ParsedRecord): boolean {
   return Boolean(record && record.value.length === 6);
 }
@@ -318,7 +318,7 @@ function dedupeRecords(records: ParsedRecord[]): ParsedRecord[] {
   return result;
 }
 
-// 按 txt 期号更新单个目标数组，保持下一期占位在第一条。
+// 按 txt 期id更新单个目标数组，保持下一期占位在第一条。
 function updateArray(parsedArray: ParsedArray, draw: DrawResult): string {
   const { name, records } = parsedArray;
   const firstRecord = records[0];
@@ -332,7 +332,7 @@ function updateArray(parsedArray: ParsedArray, draw: DrawResult): string {
   if (currentRecord) {
     if (isCompleteRecord(currentRecord)) {
       currentRaw = currentRecord.raw;
-      console.log(`${name}：当前期号已存在完整数据`);
+      console.log(`${name}：当前期id已存在完整数据`);
     } else if (isPlaceholder(currentRecord)) {
       currentRaw = createRecordRaw({
         id: draw.id,
@@ -340,18 +340,18 @@ function updateArray(parsedArray: ParsedArray, draw: DrawResult): string {
       });
       console.log(
         currentIndex === 0
-          ? `${name}：期号一致，写入红球数据`
-          : `${name}：找到当期空数据，写入红球数据`,
+          ? `${name}：期id一致，写入hq数据`
+          : `${name}：找到当期空数据，写入hq数据`,
       );
     } else {
       throw new Error(
-        `${name} 中期号 ${draw.id} 的 value 不是空数组或 6 个红球，终止执行`,
+        `${name} 中期id ${draw.id} 的 value 不是空数组或 6 个hq，终止执行`,
       );
     }
   } else if (isPlaceholder(firstRecord) && firstRecord?.id !== draw.id) {
-    console.log(`${name}：检测到本地占位和 txt 期号不一致`);
+    console.log(`${name}：检测到本地占位和 txt 期id不一致`);
     console.log(`${name}：修正本地占位 id 为：${draw.id}`);
-    console.log(`${name}：写入当期红球数据`);
+    console.log(`${name}：写入当期hq数据`);
     currentRaw = createRecordRaw({
       id: draw.id,
       value: draw.redBalls,
@@ -416,7 +416,7 @@ async function main() {
   );
   const localPlaceholderId = parsedArrays[0]?.records[0]?.id || '无';
 
-  console.log(`本地占位期号：${localPlaceholderId}`);
+  console.log(`本地占位期id：${localPlaceholderId}`);
 
   const allArraysAlreadyComplete = parsedArrays.every((parsedArray) =>
     parsedArray.records.some(
@@ -425,7 +425,7 @@ async function main() {
   );
 
   if (allArraysAlreadyComplete) {
-    console.log(`当前期号 ${draw.id} 已存在完整数据，本次无需更新`);
+    console.log(`当前期id ${draw.id} 已存在完整数据，本次无需更新`);
     return;
   }
 
@@ -442,7 +442,7 @@ async function main() {
   }
 
   if (nextContent === content) {
-    console.log(`当前期号 ${draw.id} 已存在完整数据，本次无需更新`);
+    console.log(`当前期id ${draw.id} 已存在完整数据，本次无需更新`);
     return;
   }
 
