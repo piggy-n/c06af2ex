@@ -4,6 +4,7 @@
     "start": "vite --host 0.0.0.0 --port 8080",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0 --port 8080",
+    "update:ssq": "tsx scripts/update-ssq.ts",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "echo \"No test runner configured\""
   },
@@ -25,15 +26,16 @@
     "react-router-dom": "^6.23.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
     "@types/lodash": "^4.17.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.10",
     "less": "^4.2.0",
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.0",
+    "tsx": "^4.22.4",
     "typescript": "^4.1.2",
     "vite": "^5.2.0"
   }
