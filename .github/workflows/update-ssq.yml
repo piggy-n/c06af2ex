@@ -3,10 +3,8 @@ name: Update SSQ Data
 on:
   workflow_dispatch:
   schedule:
-    # 北京时间每周二、四、日 22:00、22:30 执行。
-    - cron: '0,30 14 * * 2,4,0'
-    # 北京时间每周二、四、日 23:00 执行。
-    - cron: '0 15 * * 2,4,0'
+    # 北京时间每周二、四、日 23:00、23:20、23:50 执行。
+    - cron: '0,20,50 15 * * 2,4,0'
 
 permissions:
   contents: write
